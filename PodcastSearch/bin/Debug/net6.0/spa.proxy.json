@@ -1,0 +1,8 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:44413",
+"LaunchCommand": "npm start",
+"WorkingDirectory": "C:\\Users\\13342\\source\\repos\\PodcastSearch\\PodcastSearch\\ClientApp\\",
+"MaxTimeoutInSeconds": "120"
+}
+}

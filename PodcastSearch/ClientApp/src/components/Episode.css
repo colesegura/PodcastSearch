@@ -1,0 +1,18 @@
+.episode-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    color: white;
+  }
+  
+  .episode-links a {
+    color: #61dafb;
+    text-decoration: none;
+    margin-right: 10px;
+  }
+  
+  .episode-links a:hover {
+    color: #fff;
+  }
+  
