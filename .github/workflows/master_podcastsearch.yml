@@ -27,6 +27,9 @@ jobs:
         
       - name: Restore dependencies
         run: dotnet restore --source https://api.nuget.org/v3/index.json
+      
+      - name: Install Azure SDK
+        run: dotnet add package Azure.Search.Documents
         
       - name: Build with dotnet
         run: dotnet build --configuration Release
