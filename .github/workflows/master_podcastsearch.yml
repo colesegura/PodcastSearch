@@ -26,7 +26,7 @@ jobs:
         run: dotnet nuget locals all --clear
         
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore --source https://api.nuget.org/v3/index.json
         
       - name: Build with dotnet
         run: dotnet build --configuration Release
