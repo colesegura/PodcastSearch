@@ -10,4 +10,3 @@ function HomePage({ onSearch }) {
 }
 
 export default HomePage;
-
