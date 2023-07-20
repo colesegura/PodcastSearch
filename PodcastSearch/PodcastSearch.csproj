@@ -14,6 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Search.Documents" Version="11.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
@@ -31,12 +32,8 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
-    <Compile Remove="NewFolder\**" />
     <Content Remove="$(SpaRoot)**" />
-    <Content Remove="NewFolder\**" />
-    <EmbeddedResource Remove="NewFolder\**" />
     <None Remove="$(SpaRoot)**" />
-    <None Remove="NewFolder\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
