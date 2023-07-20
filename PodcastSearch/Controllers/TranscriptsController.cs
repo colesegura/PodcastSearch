@@ -25,7 +25,7 @@ namespace PodcastSearch.Controllers
 
         // GET: api/Transcripts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Transcript>>> GetTranscripts()
+        public async Task<ActionResult<IEnumerable<Transcripts>>> GetTranscripts()
         {
             if (_context.Transcripts == null)
             {
@@ -36,7 +36,7 @@ namespace PodcastSearch.Controllers
 
         // GET: api/Transcripts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Transcript>> GetTranscript(int id)
+        public async Task<ActionResult<Transcripts>> GetTranscript(string id)
         {
             if (_context.Transcripts == null)
             {
@@ -55,7 +55,7 @@ namespace PodcastSearch.Controllers
         // PUT: api/Transcripts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTranscript(int id, Transcript transcript)
+        public async Task<IActionResult> PutTranscript(string id, Transcripts transcript)
         {
             if (id != transcript.Id)
             {
@@ -86,7 +86,7 @@ namespace PodcastSearch.Controllers
         // POST: api/Transcripts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Transcript>> PostTranscript(Transcript transcript)
+        public async Task<ActionResult<Transcripts>> PostTranscript(Transcripts transcript)
         {
             if (_context.Transcripts == null)
             {
@@ -100,7 +100,7 @@ namespace PodcastSearch.Controllers
 
         // DELETE: api/Transcripts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTranscript(int id)
+        public async Task<IActionResult> DeleteTranscript(string id)
         {
             if (_context.Transcripts == null)
             {
@@ -118,7 +118,7 @@ namespace PodcastSearch.Controllers
             return NoContent();
         }
 
-        private bool TranscriptExists(int id)
+        private bool TranscriptExists(string id)
         {
             return (_context.Transcripts?.Any(e => e.Id == id)).GetValueOrDefault();
         }

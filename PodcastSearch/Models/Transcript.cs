@@ -1,14 +1,13 @@
 ﻿namespace PodcastSearch.Models
 {
-    public class Transcript
+    public class Transcripts
     {
-        public int Id { get; set; }
-        public string Text { get; set; }
-
-        // Foreign key for Episode
-        public int EpisodeId { get; set; }
-
-        // Navigation property
-        public Episode Episode { get; set; }
+        public string Id { get; set; }
+        public int PodcastId { get; set; }
+        public string Title { get; set; }
+        public DateTimeOffset Date { get; set; }
+        public string Transcript { get; set; }
+        public string EpisodeId { get; set; }
     }
+
 }

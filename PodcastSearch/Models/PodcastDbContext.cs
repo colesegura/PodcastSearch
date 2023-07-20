@@ -9,8 +9,6 @@ namespace PodcastSearch.Models
         {
         }
 
-        public DbSet<Podcast> Podcasts { get; set; }
-        public DbSet<Episode> Episodes { get; set; }
-        public DbSet<Transcript> Transcripts { get; set; }
+        public DbSet<Transcripts> Transcripts { get; set; }
     }
 }
