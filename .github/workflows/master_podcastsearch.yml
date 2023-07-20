@@ -30,6 +30,7 @@ jobs:
       
       - name: Install Azure SDK
         run: dotnet add package Azure.Search.Documents
+        working-directory: ./PodcastSearch
         
       - name: Build with dotnet
         run: dotnet build --configuration Release
