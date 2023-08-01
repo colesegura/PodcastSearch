@@ -32,17 +32,35 @@ function Search({ onSearch }) {
         setSort(event.target.value);
     };
 
-    const search = async (query) => {
-        const response = await axios.get(`/api/Transcripts/search?query=${query}`);
+    const search = async (params) => {
+        const { searchTerm, podcast, startDate, endDate, sort } = params;
+        const response = await axios.get(`/api/Transcripts/search`, {
+            params: {
+                query: searchTerm,
+                podcast,
+                startDate,
+                endDate,
+                sort
+            }
+        });
         return response.data;
     }
 
+
     const handleSearchSubmit = async (event) => {
         event.preventDefault();
-        const results = await search(searchTerm);
+        const results = await search({
+            searchTerm,
+            podcast,
+            startDate,
+            endDate,
+            sort
+        });
         onSearch(results);
         navigate('/results');
     };
+
+
 
     const toggleFilters = () => { // Added this function
         setShowFilters(!showFilters);

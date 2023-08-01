@@ -16,8 +16,15 @@ public class SearchService
         _searchClient = new SearchClient(serviceEndpoint, indexName, credential);
     }
 
-    public async Task<SearchResults<SearchDocument>> SearchAsync(string query)
+    public async Task<SearchResults<SearchDocument>> SearchAsync(string query, string filter = null)
     {
-        return await _searchClient.SearchAsync<SearchDocument>(query);
+        var options = new SearchOptions();
+
+        if (!string.IsNullOrWhiteSpace(filter))
+        {
+            options.Filter = filter;
+        }
+
+        return await _searchClient.SearchAsync<SearchDocument>(query, options);
     }
 }
