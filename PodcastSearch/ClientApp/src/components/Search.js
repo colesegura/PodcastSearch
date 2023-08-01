@@ -32,7 +32,7 @@ function Search({ onSearch }) {
         setSort(event.target.value);
     };
 
-    /*const search = async (params) => {
+    const search = async (params) => {
         const { searchTerm, podcastId, startDate, endDate, episodeId } = params;
         try {
             const response = await axios.get(`https://dtfhsearch.azurewebsites.net/api/Transcripts/search`, {
@@ -48,7 +48,7 @@ function Search({ onSearch }) {
         } catch (error) {
             console.error(error);
         }
-    }*/
+    }
 
 
     const handleSearchSubmit = async (event) => {
