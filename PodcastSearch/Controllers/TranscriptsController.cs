@@ -155,7 +155,7 @@ namespace PodcastSearch.Controllers
 
         // GET: api/Transcripts/search?query={query}
         [HttpGet("search")]
-        public async Task<ActionResult<SearchResults<SearchDocument>>> Search(string query, string podcastId, string startDate, string endDate, string episodeId)
+        public async Task<ActionResult<SearchResults<SearchDocument>>> Search(string query, string podcastId, string startDate = null, string endDate = null, string episodeId = null)
         {
             int? podcastIdInt = string.IsNullOrEmpty(podcastId) ? null : (int?)Convert.ToInt32(podcastId);
             DateTimeOffset? startDateDate = string.IsNullOrEmpty(startDate) ? null : (DateTimeOffset?)DateTimeOffset.Parse(startDate);
