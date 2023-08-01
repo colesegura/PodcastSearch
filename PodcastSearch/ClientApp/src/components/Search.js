@@ -34,17 +34,22 @@ function Search({ onSearch }) {
 
     const search = async (params) => {
         const { searchTerm, podcastId, startDate, endDate, episodeId } = params;
-        const response = await axios.get(`/api/Transcripts/search`, {
-            params: {
-                query: searchTerm,
-                podcastId, // Now passing podcastId
-                startDate,
-                endDate,
-                episodeId // Passing episodeId
-            }
-        });
-        return response.data;
+        try {
+            const response = await axios.get(`https://dtfhsearch.azurewebsites.net/api/Transcripts/search`, {
+                params: {
+                    query: searchTerm,
+                    podcastId, // Now passing podcastId
+                    startDate,
+                    endDate,
+                    episodeId // Passing episodeId
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.error(error);
+        }
     }
+
 
     const handleSearchSubmit = async (event) => {
         event.preventDefault();
