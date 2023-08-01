@@ -16,7 +16,7 @@ public class SearchService
         _searchClient = new SearchClient(serviceEndpoint, indexName, credential);
     }
 
-    public async Task<SearchResults<SearchDocument>> SearchAsync(string query, string filter = null)
+    public async Task<SearchResults<SearchDocument>> SearchAsync(string query, string? filter = null)
     {
         var options = new SearchOptions();
 

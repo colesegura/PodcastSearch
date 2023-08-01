@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PodcastSearch.Models;
 using Azure.Search.Documents.Models;
+using Microsoft.Extensions.Logging;
 
 namespace PodcastSearch.Controllers
 {
@@ -16,14 +17,16 @@ namespace PodcastSearch.Controllers
     {
         private readonly PodcastDbContext _context;
         private readonly SearchService _searchService;
+        private readonly ILogger<TranscriptsController> _logger;  // Add this line
 
-        public TranscriptsController(PodcastDbContext context, SearchService searchService)
+        public TranscriptsController(PodcastDbContext context, SearchService searchService, ILogger<TranscriptsController> logger)
         {
             _context = context;
             _searchService = searchService;
+            _logger = logger;
         }
 
-        private string BuildFilter(int? podcastId, DateTimeOffset? startDate, DateTimeOffset? endDate, string episodeId)
+        private string BuildFilter(int? podcastId, DateTimeOffset? startDate, DateTimeOffset? endDate, string? episodeId)
         {
             List<string> filters = new List<string>();
 
@@ -157,14 +160,58 @@ namespace PodcastSearch.Controllers
         [HttpGet("search")]
         public async Task<ActionResult<SearchResults<SearchDocument>>> Search(string query, string? podcastId, string? startDate = null, string? endDate = null, string? episodeId = null)
         {
-            int? podcastIdInt = string.IsNullOrEmpty(podcastId) ? null : (int?)Convert.ToInt32(podcastId);
-            DateTimeOffset? startDateDate = string.IsNullOrEmpty(startDate) ? null : (DateTimeOffset?)DateTimeOffset.Parse(startDate);
-            DateTimeOffset? endDateDate = string.IsNullOrEmpty(endDate) ? null : (DateTimeOffset?)DateTimeOffset.Parse(endDate);
+            try
+            {
+                int? podcastIdInt = null;
+                if (!string.IsNullOrEmpty(podcastId))
+                {
+                    if (int.TryParse(podcastId, out int parsedPodcastId))
+                    {
+                        podcastIdInt = parsedPodcastId;
+                    }
+                    else
+                    {
+                        // Log error and return bad request if podcastId can't be parsed to int
+                        _logger.LogError($"Error parsing podcastId: {podcastId}");
+                        return BadRequest("Invalid podcastId parameter");
+                    }
+                }
 
-            string filter = BuildFilter(podcastIdInt, startDateDate, endDateDate, episodeId);
-            var results = await _searchService.SearchAsync(query, filter);
-            return Ok(results.GetResults());
+                DateTimeOffset? startDateDate = null;
+                if (!string.IsNullOrEmpty(startDate))
+                {
+                    if (!DateTimeOffset.TryParse(startDate, out DateTimeOffset parsedStartDate))
+                    {
+                        // Log error and return bad request if startDate can't be parsed to DateTimeOffset
+                        Console.WriteLine($"Error parsing startDate: {startDate}");
+                        return BadRequest("Invalid startDate parameter");
+                    }
+                    startDateDate = parsedStartDate;
+                }
+
+                DateTimeOffset? endDateDate = null;
+                if (!string.IsNullOrEmpty(endDate))
+                {
+                    if (!DateTimeOffset.TryParse(endDate, out DateTimeOffset parsedEndDate))
+                    {
+                        // Log error and return bad request if endDate can't be parsed to DateTimeOffset
+                        Console.WriteLine($"Error parsing endDate: {endDate}");
+                        return BadRequest("Invalid endDate parameter");
+                    }
+                    endDateDate = parsedEndDate;
+                }
+
+                string filter = BuildFilter(podcastIdInt, startDateDate, endDateDate, episodeId);
+                var results = await _searchService.SearchAsync(query, filter);
+                return Ok(results.GetResults());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred in Search");
+                return StatusCode(500, "A server error occurred");
+            }
         }
+
 
     }
 }
