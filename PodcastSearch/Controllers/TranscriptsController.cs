@@ -23,6 +23,36 @@ namespace PodcastSearch.Controllers
             _searchService = searchService;
         }
 
+        private string BuildFilter(int? podcastId, DateTimeOffset? startDate, DateTimeOffset? endDate, string episodeId)
+        {
+            List<string> filters = new List<string>();
+
+            if (podcastId.HasValue)
+            {
+                filters.Add($"podcast_id eq {podcastId.Value}");
+            }
+
+            if (startDate.HasValue)
+            {
+                filters.Add($"date ge {startDate.Value.ToString("o")}");
+            }
+
+            if (endDate.HasValue)
+            {
+                filters.Add($"date le {endDate.Value.ToString("o")}");
+            }
+
+            if (!string.IsNullOrEmpty(episodeId))
+            {
+                filters.Add($"episode_id eq '{episodeId}'");
+            }
+
+            // Add more filters as needed.
+
+            return string.Join(" and ", filters);
+        }
+
+
         // GET: api/Transcripts
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Transcripts>>> GetTranscripts()
@@ -125,10 +155,16 @@ namespace PodcastSearch.Controllers
 
         // GET: api/Transcripts/search?query={query}
         [HttpGet("search")]
-        public async Task<ActionResult<SearchResults<SearchDocument>>> Search(string query)
+        public async Task<ActionResult<SearchResults<SearchDocument>>> Search(string query, string podcastId, string startDate, string endDate, string episodeId)
         {
-            var results = await _searchService.SearchAsync(query);
+            int? podcastIdInt = string.IsNullOrEmpty(podcastId) ? null : (int?)Convert.ToInt32(podcastId);
+            DateTimeOffset? startDateDate = string.IsNullOrEmpty(startDate) ? null : (DateTimeOffset?)DateTimeOffset.Parse(startDate);
+            DateTimeOffset? endDateDate = string.IsNullOrEmpty(endDate) ? null : (DateTimeOffset?)DateTimeOffset.Parse(endDate);
+
+            string filter = BuildFilter(podcastIdInt, startDateDate, endDateDate, episodeId);
+            var results = await _searchService.SearchAsync(query, filter);
             return Ok(results.GetResults());
         }
+
     }
 }

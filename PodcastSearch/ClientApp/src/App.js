@@ -18,10 +18,11 @@ function App() {
         fetchData();
     }, []);
 
-    const handleSearch = async (searchTerm, podcast, startDate, endDate, sort) => {
-        const result = await axios.get(`/api/Transcripts/search?query=${searchTerm}`);
+    const handleSearch = async (searchTerm, podcastId, startDate, endDate, episodeId) => {
+        const result = await axios.get(`/api/Transcripts/search?query=${searchTerm}&podcastId=${podcastId}&startDate=${startDate}&endDate=${endDate}&episodeId=${episodeId}`);
         setResults(result.data);
     };
+
 
 
   return (

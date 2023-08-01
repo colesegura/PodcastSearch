@@ -33,32 +33,32 @@ function Search({ onSearch }) {
     };
 
     const search = async (params) => {
-        const { searchTerm, podcast, startDate, endDate, sort } = params;
+        const { searchTerm, podcastId, startDate, endDate, episodeId } = params;
         const response = await axios.get(`/api/Transcripts/search`, {
             params: {
                 query: searchTerm,
-                podcast,
+                podcastId, // Now passing podcastId
                 startDate,
                 endDate,
-                sort
+                episodeId // Passing episodeId
             }
         });
         return response.data;
     }
 
-
     const handleSearchSubmit = async (event) => {
         event.preventDefault();
         const results = await search({
             searchTerm,
-            podcast,
+            podcastId: podcast, // Now treating 'podcast' as 'podcastId'
             startDate,
             endDate,
-            sort
+            episodeId: sort // Now treating 'sort' as 'episodeId'
         });
         onSearch(results);
         navigate('/results');
     };
+
 
 
 
