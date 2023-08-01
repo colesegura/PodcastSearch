@@ -60,7 +60,7 @@ jobs:
         with:
           app-name: 'podcastsearch'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_ECC0BE996CBD4F8AA94A30EF9F543128 }}
+          publish-profile: ${{ secrets.NEW_AZUREAPPSERVICE_PUBLISHPROFILE }}
           package: .
         env:
           DEPLOYMENT_TIMEOUT: 3600 # This sets the deployment timeout to 3600 seconds (1 hour)
