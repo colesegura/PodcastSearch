@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Search from './Search';
+import SearchResults from './SearchResults';
 
 function ParentComponent() {
     const [results, setResults] = useState([]);
@@ -11,10 +12,9 @@ function ParentComponent() {
     return (
         <div>
             <Search onSearch={handleSearch} />
-            {/* Display the search results here */}
+            <SearchResults results={results} />
         </div>
     );
 }
 
 export default ParentComponent;
-
